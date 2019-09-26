@@ -1,16 +1,16 @@
 'use strict';
 
-class NoLogsGroup {
+class RemoveLogGroups {
     constructor(serverless, options) { // jshint ignore:line
         this.hooks = {
             'before:package:finalize': function () {
-                removeCloudwatchLogsDefinition(serverless);
+                removeCloudwatchLogGroups(serverless);
             }
         };
     }
 }
 
-function removeCloudwatchLogsDefinition(serverless) {
+function removeCloudwatchLogGroups(serverless) {
     let rsrc = serverless.service.provider.compiledCloudFormationTemplate.Resources;
     for (let key in rsrc) {
         if (rsrc[key].Type === 'AWS::Logs::LogGroup') {
@@ -27,4 +27,4 @@ function removeCloudwatchLogsDefinition(serverless) {
     }
 }
 
-module.exports = NoLogsGroup;
+module.exports = RemoveLogGroups;
